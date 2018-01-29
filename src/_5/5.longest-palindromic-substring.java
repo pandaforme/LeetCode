@@ -1,4 +1,4 @@
-//package _5;
+package _5;
 
 class Solution {
     // brute force
