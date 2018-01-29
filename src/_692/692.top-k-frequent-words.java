@@ -1,3 +1,5 @@
+package _692;
+
 import java.util.*;
 
 class Solution {
