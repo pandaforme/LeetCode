@@ -1,4 +1,4 @@
-//package _240;
+package _240;
 
 class Solution {
 
