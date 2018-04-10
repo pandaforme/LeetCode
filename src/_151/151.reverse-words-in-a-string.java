@@ -1,4 +1,4 @@
-package//package _151;
+package _151;
 
 class Solution {
     // if a interviewer allow you to use API to solve it, it definitely an easy test...
