@@ -1,8 +1,5 @@
 package oa.apple;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //Given an integer sequence s = (s1,s2,s3,...,sn), a subsequence is another sequence s_ = (s_1, s_2, s_3...., s_k) with k < n, and s_1, s_2, s_3..., s_k belonging to s, exactly in that order.
 //Find the maximum length of a subsequence in which its elements are in increasing sorted order, lowest to highest.
 //The subsequence doesn't have to be necessarily contigous, or unique.
@@ -11,41 +8,31 @@ public class Test1 {
         /*
          * Some work here; return type and arguments should be according to the problem's requirements
          */
-        int k = Integer.MIN_VALUE;
+        int k = 0;
         for (int i = 0; i < sequence.length; i++) {
-            int max = helper(sequence[i], i + 1, sequence.length - 1, sequence).stream().max(Integer::compareTo).orElse(0) + 1;
+            int max = helper(sequence[i], i + 1, sequence.length - 1, sequence) + 1;
             k = Math.max(k, max);
 
             if (sequence.length - i + 1 < max)
                 break;
         }
 
-        return (k == Integer.MIN_VALUE) ? 0 : k;
+        return k;
     }
 
-    private static List<Integer> helper(int current, int start, int end, int[] sequence) {
-        List<Integer> list = new ArrayList<>();
-
+    private static Integer helper(int current, int start, int end, int[] sequence) {
         if (start > end) {
-            return list;
+            return 0;
         }
 
+        int max = 0;
         for (int i = start; i <= end; i++) {
             if (sequence[i] > current) {
-                final List<Integer> remains = helper(sequence[i], i + 1, end, sequence);
-
-                if (remains.isEmpty()) {
-                    list.add(1);
-                    continue;
-                }
-
-                for (Integer count : remains) {
-                    list.add(count + 1);
-                }
+                max = Math.max(max, 1 + helper(sequence[i], i, end, sequence));
             }
         }
 
-        return list;
+        return max;
     }
 
     public static void main(String[] args) {
