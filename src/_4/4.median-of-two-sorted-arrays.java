@@ -5,7 +5,7 @@ class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int l = nums1.length + nums2.length;
 
-        // k means index, but we need to its order
+        // k means index, but we need to get its order
         // for example: num => 2, 4, 5, 7, 9
         // k = 2, num[k] = 5, but 5 is third number in num
         // k + 1 means its order
