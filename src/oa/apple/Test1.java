@@ -3,6 +3,7 @@ package oa.apple;
 //Given an integer sequence s = (s1,s2,s3,...,sn), a subsequence is another sequence s_ = (s_1, s_2, s_3...., s_k) with k < n, and s_1, s_2, s_3..., s_k belonging to s, exactly in that order.
 //Find the maximum length of a subsequence in which its elements are in increasing sorted order, lowest to highest.
 //The subsequence doesn't have to be necessarily contigous, or unique.
+//LeetCode 300
 public class Test1 {
     public static int run(int[] sequence) {
         /*
