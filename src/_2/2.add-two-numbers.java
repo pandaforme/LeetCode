@@ -1,3 +1,7 @@
+package _2;
+
+import datastructure.ListNode;
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
