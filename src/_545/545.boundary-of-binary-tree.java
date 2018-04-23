@@ -1,18 +1,9 @@
 package _545;
 
+import datastructure.TreeNode;
+
 import java.util.ArrayList;
 import java.util.List;
-
-
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int x) {
-        val = x;
-    }
-}
 
 class Solution {
     public List<Integer> boundaryOfBinaryTree(TreeNode root) {
