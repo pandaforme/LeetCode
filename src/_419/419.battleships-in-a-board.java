@@ -1,3 +1,5 @@
+package _419;
+
 class Solution {
     public int countBattleships(char[][] board) {
         int rows = board.length;
