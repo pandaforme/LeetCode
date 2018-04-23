@@ -1,4 +1,4 @@
-package _230;//import datastructure.TreeNode;
+package _230;
 
 import datastructure.TreeNode;
 
@@ -11,7 +11,7 @@ import datastructure.TreeNode;
  * TreeNode(int x) { val = x; }
  * }
  */
-class Solutiosn {
+class Solution {
     int count = 0;
     int result = 0;
 
