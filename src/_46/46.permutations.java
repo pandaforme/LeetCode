@@ -5,32 +5,37 @@ import java.util.List;
 
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
-        return find(nums, 0);
+        return helper(nums, 0);
     }
 
-    private List<List<Integer>> find(int[] nums, int start) {
-        if (nums == null || nums.length == 0)
-            return new ArrayList<>();
+    private List<List<Integer>> helper(int[] nums, int start) {
+        List<List<Integer>> result = new ArrayList<>();
 
-        if ((nums.length - start) == 1) {
-            List<List<Integer>> results = new ArrayList<>();
+        if (nums.length == 0)
+            return result;
+
+        if (start == nums.length - 1) {
             List<Integer> tmp = new ArrayList<>();
-            tmp.add(nums[nums.length - 1]);
-            results.add(tmp);
-            return results;
+            tmp.add(nums[start]);
+
+            result.add(tmp);
+            return result;
         }
 
-        List<List<Integer>> results = new ArrayList<>();
-        List<List<Integer>> lists = find(nums, start + 1);
-
-        for (List<Integer> list : lists) {
-            for (int j = 0; j <= list.size(); j++) {
-                List<Integer> tmp = new ArrayList<>(list);
-                tmp.add(j, nums[start]);
-                results.add(tmp);
+        List<List<Integer>> others = helper(nums, start + 1);
+        for (List<Integer> other : others) {
+            for (int i = 0; i <= other.size(); i++) {
+                List<Integer> tmp = new ArrayList<>();
+                tmp.addAll(other);
+                tmp.add(i, nums[start]);
+                result.add(tmp);
             }
         }
 
-        return results;
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Solution().permute(new int[]{1, 2, 3}));
     }
 }
