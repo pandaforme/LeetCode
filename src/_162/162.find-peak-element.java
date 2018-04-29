@@ -11,10 +11,10 @@ class Solution {
 
         int middle = (start + end) / 2;
 
-        if (((middle - 1 < 0) || nums[middle] > nums[middle - 1]) && ((middle + 1 > end) || nums[middle] > nums[middle + 1]))
+        if (((middle - 1 < start) || nums[middle] > nums[middle - 1]) && ((middle + 1 > end) || nums[middle] > nums[middle + 1]))
             return middle;
 
-        if (middle - 1 >= 0 && nums[middle - 1] > nums[middle])
+        if (middle - 1 >= start && nums[middle - 1] > nums[middle])
             return helper(start, middle - 1, nums);
         else
             return helper(middle + 1, end, nums);
