@@ -4,8 +4,23 @@ class Solution {
     public int divide(int dividend, int divisor) {
         long dividendL = dividend;
         long divisorL = divisor;
+        long unsignedDividendL = Math.abs(dividendL);
+        long unsignedDivisorL = Math.abs(divisorL);
 
-        long result = helper(Math.abs(dividendL), Math.abs(divisorL), 0, Math.abs(dividendL));
+        long result = 0;
+        int k = 0;
+        while ((unsignedDivisorL << k) <= unsignedDividendL)
+            k++;
+        k--;
+
+        while (k >= 0) {
+            long tmp = (unsignedDivisorL << k);
+            if (tmp <= unsignedDividendL) {
+                result += (1L << k);
+                unsignedDividendL -= tmp;
+            }
+            k--;
+        }
 
         if (dividend < 0 && divisor < 0 || dividend > 0 && divisor > 0) {
             return result > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) result;
@@ -14,20 +29,6 @@ class Solution {
         return -result < Integer.MIN_VALUE ? Integer.MAX_VALUE : (int) -result;
     }
 
-    private long helper(long dividend, long divisor, long start, long end) {
-        if (start > end)
-            return end;
-
-        long middle = (start + end) / 2;
-
-        if (middle * divisor == dividend)
-            return middle;
-
-        if (middle * divisor > dividend)
-            return helper(dividend, divisor, start, middle - 1);
-
-        return helper(dividend, divisor, middle + 1, end);
-    }
 
     public static void main(String[] args) {
         System.out.println(new Solution().divide(0, 3));
