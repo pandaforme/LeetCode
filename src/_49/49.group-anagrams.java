@@ -1,45 +1,50 @@
 package _49;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
         Map<List<Integer>, List<String>> map = new HashMap<>();
 
-        for (int i = 0; i < strs.length; i++) {
-            List<Integer> vector = toVector(strs[i]);
+        for (String str : strs) {
+            List<Integer> stats = getStats(str);
 
-            if (map.containsKey(vector)) {
-                map.get(vector).add(strs[i]);
+            if (map.containsKey(stats)) {
+                map.get(stats).add(str);
             } else {
-                List<String> set = new ArrayList<>();
-                set.add(strs[i]);
-                map.put(vector, set);
+                List<String> tmp = new ArrayList<>();
+                tmp.add(str);
+                map.put(stats, tmp);
             }
         }
 
-
-        List<List<String>> results = new ArrayList<>();
+        List<List<String>> result = new ArrayList<>();
         for (Map.Entry<List<Integer>, List<String>> entry : map.entrySet()) {
-            results.add(entry.getValue());
+            result.add(entry.getValue());
         }
 
-        return results;
+        return result;
     }
 
-    private List<Integer> toVector(String s) {
-        List<Integer> list = new ArrayList<>(Collections.nCopies(26, 0));
+    private List<Integer> getStats(String s) {
+        List<Integer> stats = new ArrayList<>();
 
-        for (int i = 0; i < s.length(); i++) {
-            int index = s.charAt(i) - 97;
-            list.set(index, list.get(index) + 1);
+        for (int i = 0; i < 26; i++) {
+            stats.add(0);
         }
 
-        return list;
+        for (int i = 0; i < s.length(); i++) {
+            int key = s.charAt(i) - 'a';
+            stats.set(key, stats.get(key) + 1);
+        }
+
+        return stats;
     }
 
     public static void main(String[] args) {
-//        System.out.println(new Solution().groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"}));
-        System.out.println(new Solution().groupAnagrams(new String[]{"", ""}));
+        System.out.println(new Solution().groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"}));
     }
 }
