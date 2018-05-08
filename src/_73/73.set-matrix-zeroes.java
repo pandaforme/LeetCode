@@ -1,3 +1,5 @@
+package _73;
+
 import java.util.Arrays;
 
 class Solution {
