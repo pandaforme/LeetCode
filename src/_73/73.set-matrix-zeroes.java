@@ -1,33 +1,26 @@
-package _73;
-
 import java.util.Arrays;
 
 class Solution {
-
-    // using O(1) space
     public void setZeroes(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
-        boolean isFirstRowZero = false;
-        boolean isFirstColumnZero = false;
+        boolean isFirstRowContainZero = false;
+        boolean isColumnContainZero = false;
 
-        // whether set the first row to 0
         for (int j = 0; j < n; j++) {
             if (matrix[0][j] == 0) {
-                isFirstRowZero = true;
+                isFirstRowContainZero = true;
                 break;
             }
         }
 
-        // whether set the first column to 0
         for (int i = 0; i < m; i++) {
             if (matrix[i][0] == 0) {
-                isFirstColumnZero = true;
+                isColumnContainZero = true;
                 break;
             }
         }
 
-        // set 0 to matrix[i][0] and matrix[0][j]
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
                 if (matrix[i][j] == 0) {
@@ -37,98 +30,37 @@ class Solution {
             }
         }
 
-        // set related rows to 0
         for (int i = 1; i < m; i++) {
             if (matrix[i][0] == 0) {
-                for (int j = 0; j < n; j++) {
+                for (int j = 1; j < n; j++) {
                     matrix[i][j] = 0;
                 }
             }
         }
 
-        // set related columns to 0
         for (int j = 1; j < n; j++) {
             if (matrix[0][j] == 0) {
-                for (int i = 0; i < m; i++) {
+                for (int i = 1; i < m; i++) {
                     matrix[i][j] = 0;
                 }
             }
         }
 
-        if (isFirstRowZero) {
-            for (int j = 0; j < n; j++) {
-                matrix[0][j] = 0;
+
+        if (isFirstRowContainZero) {
+            for (int i = 0; i < n; i++) {
+                matrix[0][i] = 0;
+
             }
         }
 
-        if (isFirstColumnZero) {
-            for (int i = 0; i < m; i++) {
-                matrix[i][0] = 0;
+        if (isColumnContainZero) {
+            for (int j = 0; j < m; j++) {
+                matrix[j][0] = 0;
+
             }
         }
-
     }
-
-    // using O(m + n) space
-//    public void setZeroes(int[][] matrix) {
-//        int m = matrix.length;
-//        int n = matrix[0].length;
-//
-//        Set<Integer> setI = new HashSet<>();
-//        Set<Integer> setJ = new HashSet<>();
-//        for (int i = 0; i < m; i++) {
-//            for (int j = 0; j < n; j++) {
-//                if (matrix[i][j] == 0) {
-//                    setI.add(i);
-//                    setJ.add(j);
-//                }
-//            }
-//        }
-//
-//        for (int i = 0; i < m; i++) {
-//            for (int j = 0; j < n; j++) {
-//                if (setI.contains(i) || setJ.contains(j)) {
-//                    matrix[i][j] = 0;
-//                }
-//            }
-//        }
-//    }
-
-    // naive solution using O(mn) space
-//    public void setZeroes(int[][] matrix) {
-//        int m = matrix.length;
-//        int n = matrix[0].length;
-//        int[][] newMatrix = new int[m][n];
-//
-//        // initial newMatrix
-//        for (int i = 0; i < m; i++) {
-//            for (int j = 0; j < n; j++) {
-//                newMatrix[i][j] = Integer.MAX_VALUE;
-//            }
-//        }
-//
-//        for (int i = 0; i < m; i++) {
-//            for (int j = 0; j < n; j++) {
-//                if (matrix[i][j] == 0) {
-//                    // set its entire row and column to 0 in newMatrix
-//                    for (int k = 0; k < n; k++)
-//                        newMatrix[i][k] = 0;
-//                    for (int k = 0; k < m; k++)
-//                        newMatrix[k][j] = 0;
-//                } else if (matrix[i][j] != 0) {
-//                    // set its original value in newMatrix
-//                    if (newMatrix[i][j] != 0)
-//                        newMatrix[i][j] = matrix[i][j];
-//                }
-//            }
-//        }
-//
-//        for (int i = 0; i < m; i++) {
-//            for (int j = 0; j < n; j++) {
-//                matrix[i][j] = newMatrix[i][j];
-//            }
-//        }
-//    }
 
     public static void main(String[] args) {
         int[][] matrix = null;
