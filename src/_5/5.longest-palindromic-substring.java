@@ -1,110 +1,37 @@
 package _5;
 
 class Solution {
-    // brute force
-//    public String longestPalindrome(String s) {
-//        for (int w = s.length(); w >= 2; w--) {
-//            for (int i = 0; i < s.length(); i++) {
-//                if (i + w <= s.length()) {
-//                    String substring = s.substring(i, i + w);
-//                    boolean palindrome = isPalindrome(substring);
-//                    if (palindrome) {
-//                        return substring;
-//                    }
-//                } else {
-//                    break;
-//                }
-//            }
-//        }
-//
-//        return String.valueOf(s.charAt(0));
-//    }
-
-    // dp
     public String longestPalindrome(String s) {
-        boolean[][] dp = new boolean[s.length()][s.length()];
-
+        int max = 0;
+        String result = "";
         for (int i = 0; i < s.length(); i++) {
-            dp[i][i] = true;
+            int odd = helper(s, i, i);
+            int even = helper(s, i, i + 1);
+
+            max = Math.max(Math.max(odd, even), max);
+            if (max == odd)
+                result = s.substring(i - ((odd - 1) / 2), i - ((odd - 1) / 2) + odd);
+            else if (max == even)
+                result = s.substring(i - ((even - 2) / 2), i - ((even - 2) / 2) + even);
         }
 
-        int maxI = 0;
-        int maxJ = 0;
-        int max = -1;
-        for (int d = 1; d < s.length(); d++) {
-            for (int i = 0; i < s.length() - d; i++) {
-                int j = i + d;
-                if (s.charAt(i) == s.charAt(j)) {
-                    // indexes are overflow
-                    if (i + 1 > j - 1) {
-                        dp[i][j] = true;
-
-                        if (d > max) {
-                            max = d;
-                            maxI = i;
-                            maxJ = j;
-                        }
-                    } else if (dp[i + 1][j - 1]) {
-                        dp[i][j] = true;
-
-                        if (d > max) {
-                            max = d;
-                            maxI = i;
-                            maxJ = j;
-                        }
-                    }
-                }
-            }
-        }
-
-        return s.substring(maxI, maxJ + 1);
+        return result;
     }
 
-    // expand method
-//    public String longestPalindrome(String s) {
-//        int max = Integer.MIN_VALUE;
-//        int maxI = 0;
-//        int maxJ = 0;
-//        for (int i = 0; i < s.length(); i++) {
-//            int odd = expandPalindrome(s, i, i);
-//            int even = expandPalindrome(s, i, i + 1);
-//            int m = Math.max(odd, even);
-//            if (m > max) {
-//                max = m;
-//                if (m == odd) {
-//                    maxI = i - ((m - 1) / 2);
-//                    maxJ = i + ((m - 1) / 2);
-//                } else {
-//                    maxI = i - ((m - 2) / 2);
-//                    maxJ = (i + 1) + ((m - 2) / 2);
-//                }
-//            }
-//        }
-//
-//        return s.substring(maxI, maxJ + 1);
-//    }
-
-    private int expandPalindrome(String s, int i, int j) {
-        while (i >= 0 && j < s.length() && (s.charAt(i) == s.charAt(j))) {
-            i--;
-            j++;
+    private int helper(String s, int a, int b) {
+        while (a >= 0 && b < s.length()) {
+            if (s.charAt(a) != s.charAt(b))
+                return b - a - 1;
+            a--;
+            b++;
         }
 
-        return j - i - 1;
+        return b - a - 1;
     }
 
-    private boolean isPalindrome(String s) {
-        int front = 0;
-        int back = s.length() - 1;
-
-        do {
-            if ((s.charAt(front) != s.charAt(back))) {
-                return false;
-            }
-            front++;
-            back--;
-        } while (front <= back);
-
-        return true;
+    public static void main(String[] args) {
+        System.out.println(new Solution().longestPalindrome("a"));
+        System.out.println(new Solution().longestPalindrome("babad"));
+        System.out.println(new Solution().longestPalindrome("cbbd"));
     }
 }
