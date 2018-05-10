@@ -12,24 +12,24 @@ import datastructure.ListNode;
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if (l1 == null)
+        if (l1 == null) {
             return l2;
-
-        if (l2 == null)
+        } else if (l2 == null) {
             return l1;
+        }
 
+        int carry = 0;
         ListNode result = null;
         ListNode resultPointer = null;
-        int carry = 0;
+
         while (l1 != null && l2 != null) {
             ListNode tmp = new ListNode((l1.val + l2.val + carry) % 10);
-
-            if (result == null) {
+            if (resultPointer == null) {
                 result = tmp;
-                resultPointer = result;
+                resultPointer = tmp;
             } else {
                 resultPointer.next = tmp;
-                resultPointer = tmp;
+                resultPointer = resultPointer.next;
             }
 
             carry = (l1.val + l2.val + carry) / 10;
@@ -38,36 +38,22 @@ class Solution {
         }
 
         while (l1 != null) {
-            ListNode tmp = new ListNode((l1.val + carry) % 10);
-
-            if (result == null) {
-                result = tmp;
-                resultPointer = result;
-            } else {
-                resultPointer.next = tmp;
-                resultPointer = tmp;
-            }
+            resultPointer.next = new ListNode((l1.val + carry) % 10);
+            resultPointer = resultPointer.next;
 
             carry = (l1.val + carry) / 10;
             l1 = l1.next;
         }
 
         while (l2 != null) {
-            ListNode tmp = new ListNode((l2.val + carry) % 10);
-
-            if (result == null) {
-                result = tmp;
-                resultPointer = result;
-            } else {
-                resultPointer.next = tmp;
-                resultPointer = tmp;
-            }
+            resultPointer.next = new ListNode((l2.val + carry) % 10);
+            resultPointer = resultPointer.next;
 
             carry = (l2.val + carry) / 10;
             l2 = l2.next;
         }
 
-        if (carry > 0) {
+        if (carry != 0) {
             resultPointer.next = new ListNode(carry);
         }
 
