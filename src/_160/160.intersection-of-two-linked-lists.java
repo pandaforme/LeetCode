@@ -1,64 +1,60 @@
 package _160;
 
+import datastructure.ListNode;
 
-
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}
-
-class Solution {
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ * int val;
+ * ListNode next;
+ * ListNode(int x) {
+ * val = x;
+ * next = null;
+ * }
+ * }
+ */
+public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        int lengthA = length(headA);
-        int lengthB = length(headB);
-        ListNode tmpA = headA;
-        ListNode tmpB = headB;
+        if (headA == null || headB == null)
+            return null;
 
+        int lengthA = getLength(headA);
+        int lengthB = getLength(headB);
+
+        int diff = Math.abs(lengthA - lengthB);
         if (lengthA > lengthB) {
-            int diff = lengthA - lengthB;
-            while (diff > 0) {
-                tmpA = tmpA.next;
-                diff--;
+            for (int i = 0; i < diff; i++) {
+                headA = headA.next;
             }
 
-            return find(tmpA, headB);
-        } else if (lengthB > lengthA) {
-            int diff = lengthB - lengthA;
-            while (diff > 0) {
-                tmpB = tmpB.next;
-                diff--;
+        } else if (lengthA < lengthB) {
+            for (int i = 0; i < diff; i++) {
+                headB = headB.next;
             }
-
-            return find(headA, tmpB);
-        } else
-            return find(headA, headB);
-    }
-
-    private ListNode find(ListNode headA, ListNode headB) {
-        ListNode tmpA = headA;
-        ListNode tmpB = headB;
-
-        while (tmpA != tmpB) {
-            tmpA = tmpA.next;
-            tmpB = tmpB.next;
         }
 
-        return tmpA;
+        return intersect(headA, headB);
     }
 
-    private int length(ListNode head) {
-        ListNode tmp = head;
-        int result = 0;
-        while (tmp != null) {
-            result++;
-            tmp = tmp.next;
+    private ListNode intersect(ListNode headA, ListNode headB) {
+        while (headA != null) {
+            if (headA == headB)
+                return headA;
+            else {
+                headA = headA.next;
+                headB = headB.next;
+            }
         }
 
-        return result;
+        return null;
+    }
+
+    private int getLength(ListNode node) {
+        int count = 0;
+        while (node != null) {
+            count++;
+            node = node.next;
+        }
+        return count;
     }
 }
