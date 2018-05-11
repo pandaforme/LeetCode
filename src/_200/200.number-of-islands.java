@@ -2,45 +2,37 @@ package _200;
 
 class Solution {
     public int numIslands(char[][] grid) {
-        int rows = grid.length;
-        if (rows == 0)
+        int m = grid.length;
+        if (m == 0)
             return 0;
-        int columns = grid[0].length;
-        boolean[][] visited = new boolean[rows][columns];
+        int n = grid[0].length;
 
         int count = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                if (grid[i][j] == '1' && !visited[i][j]) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
                     count++;
-                    visit(visited, grid, i, j);
+                    visit(i, j, m, n, grid);
                 }
+
             }
         }
 
         return count;
     }
 
-    private void visit(boolean[][] visited, char[][] grid, int i, int j) {
-        if (i < 0 || i >= grid.length)
+    private void visit(int i, int j, int m, int n, char[][] grid) {
+        if (i < 0 || i >= m || j < 0 || j >= n)
             return;
 
-        if (j < 0 || j >= grid[0].length)
+        if (grid[i][j] == '0' || grid[i][j] == '#')
             return;
 
-        if (grid[i][j] != '1' || visited[i][j])
-            return;
-
-        visited[i][j] = true;
-
-        // left
-        visit(visited, grid, i, j - 1);
-        // right
-        visit(visited, grid, i, j + 1);
-        // up
-        visit(visited, grid, i - 1, j);
-        // down
-        visit(visited, grid, i + 1, j);
+        grid[i][j] = '#';
+        visit(i - 1, j, m, n, grid);
+        visit(i + 1, j, m, n, grid);
+        visit(i, j - 1, m, n, grid);
+        visit(i, j + 1, m, n, grid);
     }
 
     public static void main(String[] args) {
@@ -52,3 +44,5 @@ class Solution {
         }));
     }
 }
+
+
