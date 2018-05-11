@@ -17,6 +17,7 @@ class Solution {
 
     public int kthSmallest(TreeNode root, int k) {
         helper(root, k);
+
         return result;
     }
 
@@ -25,10 +26,13 @@ class Solution {
             return;
 
         helper(root.left, k);
+
         if (++count == k)
             result = root.val;
-        else
+
+        if (k > count) {
             helper(root.right, k);
+        }
     }
 
     public static void main(String[] args) {
@@ -43,7 +47,6 @@ class Solution {
         three.right = four;
         four.right = five;
 
-        System.out.println(new Solution().kthSmallest(three, 1));
+        System.out.println(new Solution().kthSmallest(three, 5));
     }
-
 }
