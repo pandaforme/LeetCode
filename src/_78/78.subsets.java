@@ -5,36 +5,28 @@ import java.util.List;
 
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
+        if (nums == null && nums.length == 0)
+            return new ArrayList<>();
+
         return helper(nums, 0);
     }
 
-    private List<List<Integer>> helper(int[] nums, int current) {
+    private List<List<Integer>> helper(int[] nums, int start) {
         List<List<Integer>> result = new ArrayList<>();
 
-        if (nums.length == 0) {
-            return result;
-        }
-
-        if (current == nums.length - 1) {
-            List<Integer> tmp = new ArrayList<>();
-            tmp.add(nums[current]);
-
-            result.add(tmp);
+        if (start >= nums.length) {
             result.add(new ArrayList<>());
-
             return result;
         }
 
-        // want nums[current]
-        List<List<Integer>> others = helper(nums, current + 1);
-        for (List<Integer> list : others) {
+        List<List<Integer>> lists = helper(nums, start + 1);
+        result.addAll(lists);
+
+        for (List<Integer> list : lists) {
             List<Integer> tmp = new ArrayList<>(list);
-            tmp.add(nums[current]);
+            tmp.add(nums[start]);
             result.add(tmp);
         }
-
-        // don't want nums[current]
-        result.addAll(others);
 
         return result;
     }
