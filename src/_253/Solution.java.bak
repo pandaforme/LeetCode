@@ -8,27 +8,21 @@ import java.util.PriorityQueue;
 
 public class Solution {
     public int minMeetingRooms(Interval[] intervals) {
-        if (intervals == null || intervals.length == 0)
-            return 0;
+        if (intervals.length == 0 || intervals.length == 1)
+            return intervals.length;
 
         Arrays.sort(intervals, Comparator.comparingInt(o -> o.start));
-
         PriorityQueue<Interval> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o.end));
 
-        int count = 1;
-        Interval previous = intervals[0];
-        queue.offer(previous);
-        for (int i = 1; i < intervals.length; i++) {
-            if (isOverlap(previous, intervals[i]) && queue.peek().end > intervals[i].start)
-                count++;
-            else {
+        for (int i = 0; i < intervals.length; i++) {
+            if (!queue.isEmpty() && !isOverlap(queue.peek(), intervals[i])) {
                 queue.poll();
             }
 
-            queue.offer(intervals[i]);
-            previous = intervals[i];
+            queue.add(intervals[i]);
         }
-        return count;
+
+        return queue.size();
     }
 
 
@@ -37,10 +31,6 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Solution().minMeetingRooms(
-                new Interval[]{new Interval(1, 5), new Interval(8, 9), new Interval(8, 9)}
-        ));
-
         System.out.println(new Solution().minMeetingRooms(
                 new Interval[]{new Interval(0, 30), new Interval(5, 10), new Interval(15, 20)}
         ));
