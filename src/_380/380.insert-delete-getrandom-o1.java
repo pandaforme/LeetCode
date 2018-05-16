@@ -1,19 +1,14 @@
-package _380;
-
 import java.util.*;
 
 class RandomizedSet {
-    private List<Integer> list;
-    private Map<Integer, Integer> map;
-    private Random random;
+    private Map<Integer, Integer> map = new HashMap<>();
+    private List<Integer> list = new ArrayList<>();
 
     /**
      * Initialize your data structure here.
      */
     public RandomizedSet() {
-        list = new ArrayList<>();
-        map = new HashMap<>();
-        random = new Random();
+
     }
 
     /**
@@ -22,11 +17,10 @@ class RandomizedSet {
     public boolean insert(int val) {
         if (map.containsKey(val))
             return false;
-        else {
-            list.add(val);
-            map.put(val, list.size() - 1);
-            return true;
-        }
+
+        list.add(val);
+        map.put(val, list.size() - 1);
+        return true;
     }
 
     /**
@@ -34,54 +28,30 @@ class RandomizedSet {
      */
     public boolean remove(int val) {
         if (map.containsKey(val)) {
-            int deleteIndex = map.get(val);
+            Integer position = map.get(val);
 
-            if (deleteIndex == list.size() - 1) {
-                list.remove(deleteIndex);
+            if (list.get(list.size() - 1) == val) {
+                list.remove(list.size() - 1);
+                map.remove(val);
             } else {
-                int lastValue = list.remove(list.size() - 1);
-                // move lastValue to deleteIndex
-                list.set(deleteIndex, lastValue);
-                // update lastValue's index
-                map.put(lastValue, deleteIndex);
+                int tmp = list.get(list.size() - 1);
+                list.set(position, tmp);
+                list.remove(list.size() - 1);
+                map.put(tmp, position);
+                map.remove(val);
             }
-            map.remove(val);
+
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Get a random element from the set.
      */
     public int getRandom() {
-        int r = random.nextInt(list.size());
-        return list.get(r);
-    }
-
-    public static void main(String[] args) {
-        RandomizedSet obj = new RandomizedSet();
-        System.out.println(obj.insert(3));
-        System.out.println(obj.insert(-2));
-        System.out.println(obj.remove(2));
-        System.out.println(obj.insert(1));
-        System.out.println(obj.insert(-3));
-        System.out.println(obj.insert(-2));
-        System.out.println(obj.remove(-2));
-        System.out.println(obj.remove(3));
-        System.out.println(obj.insert(-1));
-        System.out.println(obj.remove(-3));
-        System.out.println(obj.insert(1));
-        System.out.println(obj.insert(-2));
-        System.out.println(obj.insert(-2));
-        System.out.println(obj.insert(-2));
-        System.out.println(obj.insert(1));
-        System.out.println(obj.getRandom());
-        System.out.println(obj.insert(-2));
-        System.out.println(obj.remove(0));
-        System.out.println(obj.insert(-3));
-        System.out.println(obj.insert(1));
+        return list.get(new Random().nextInt(list.size()));
     }
 }
 

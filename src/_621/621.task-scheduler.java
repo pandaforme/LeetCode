@@ -1,5 +1,3 @@
-package _621;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,15 +13,14 @@ class Solution {
             map.put(task, map.getOrDefault(task, 0) + 1);
         }
 
-        Map.Entry<Character, Integer> maxEnrty = map.entrySet().stream().max(Comparator.comparing(Map.Entry::getValue)).get();
+        Map.Entry<Character, Integer> maxEntry = map.entrySet().stream().max(Comparator.comparing(Map.Entry::getValue)).get();
 
         int count = 0;
         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            if (entry.getValue().equals(maxEnrty.getValue())) {
+            if (entry.getValue().equals(maxEntry.getValue()))
                 count++;
-            }
         }
 
-        return Math.max(tasks.length, (maxEnrty.getValue() - 1) * (n + 1) + count);
+        return Math.max(tasks.length, (maxEntry.getValue() - 1) * (1 + n) + count);
     }
 }

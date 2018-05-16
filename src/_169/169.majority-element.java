@@ -8,14 +8,10 @@ class Solution {
         for (int i = 1; i < nums.length; i++) {
             if (count == 0) {
                 majority = nums[i];
+                count = 1;
+            } else if (majority == nums[i])
                 count++;
-                continue;
-            }
-
-
-            if (nums[i] == majority)
-                count++;
-            else
+            else if (majority != nums[i])
                 count--;
         }
 

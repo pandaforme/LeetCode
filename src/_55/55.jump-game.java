@@ -1,85 +1,22 @@
 package _55;
 
+
 class Solution {
-
     public boolean canJump(int[] nums) {
-        if (nums.length == 0)
-            return false;
+        boolean[] dp = new boolean[nums.length];
+        dp[0] = true;
 
-        int target = nums.length - 1;
-        for (int i = nums.length - 2; i >= 0; i--) {
-            if (i + nums[i] >= target)
-                target = i;
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 1; j <= i; j++) {
+                if (i - j >= 0 && dp[i - j] && nums[i - j] >= j) {
+                    dp[i] = true;
+                    break;
+                }
+            }
         }
 
-        return target == 0;
+        return dp[nums.length - 1];
     }
-//    public boolean canJump(int[] nums) {
-//        if (nums.length == 0)
-//            return false;
-//
-//        boolean[] dp = new boolean[nums.length];
-//        dp[0] = true;
-//
-//        for (int i = 1; i < dp.length; i++) {
-//            int k = 1;
-//            while (i - k >= 0) {
-//                if (dp[i - k] && nums[i - k] >= k) {
-//                    dp[i] = true;
-//                    break;
-//                }
-//                k++;
-//            }
-//        }
-//
-//        return dp[nums.length - 1];
-//    }
-
-//    public boolean canJump(int[] nums) {
-//        if (nums.length == 0)
-//            return false;
-//
-//        Stack<Integer> stack = new Stack<>();
-//        stack.add(0);
-//
-//        while (!stack.isEmpty()) {
-//            int current = stack.pop();
-//            if (nums[current] >= (nums.length - 1) - current)
-//                return true;
-//
-//            for (int i = 1; i <= nums[current]; i++) {
-//                stack.push(current + i);
-//            }
-//        }
-//
-//        return false;
-//    }
-
-//    public boolean canJump(int[] nums) {
-//        if (nums.length == 0)
-//            return false;
-//
-//        return helper(nums, 0, nums.length - 1);
-//    }
-//
-//    private boolean helper(int[] nums, int start, int target) {
-//        if (start >= nums.length)
-//            return false;
-//
-//        if (nums[start] >= target - start)
-//            return true;
-//
-//        if (nums[start] == 0)
-//            return false;
-//
-//        for (int i = 1; i <= nums[start]; i++) {
-//            if (helper(nums, start + i, target)) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
 
     public static void main(String[] args) {
         System.out.println(new Solution().canJump(new int[]{0}));
