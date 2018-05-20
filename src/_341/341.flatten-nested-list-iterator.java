@@ -23,7 +23,7 @@ import java.util.Stack;
  * public List<NestedInteger> getList();
  * }
  */
-public class NestedIterator implements Iterator<Integer> {
+class NestedIterator implements Iterator<Integer> {
     private Stack<NestedInteger> stack;
 
     public NestedIterator(List<NestedInteger> nestedList) {
