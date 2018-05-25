@@ -1,45 +1,49 @@
 package _8;
 
-import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 class Solution {
     public int myAtoi(String str) {
-        str = str.trim();
-        if (str.isEmpty())
+        if (str == null || str.trim().isEmpty())
             return 0;
 
-        Pattern pattern = Pattern.compile("^([+-]?)(\\d+)([\\w\\s]*)$");
-        Matcher matcher = pattern.matcher(str);
+        String s = str.trim().split(" ")[0];
+        boolean isPositive = s.charAt(0) != '-';
 
-        Stack<Character> stack = new Stack<>();
         long result = 0;
-        if (matcher.find()) {
-            for (int i = 0; i < matcher.group(2).length(); i++) {
-                stack.push(matcher.group(2).charAt(i));
+        for (int i = 0; i < s.length(); i++) {
+            if (i == 0 && (s.charAt(i) == '-' || s.charAt(i) == '+'))
+                continue;
+
+            if (!Character.isDigit(s.charAt(i))) {
+                if (!isPositive)
+                    result = -result;
+                return (int) result;
             }
 
-            int i = 0;
-            while (!stack.isEmpty()) {
-                result += Character.getNumericValue(stack.pop()) * Math.pow(10, i);
-                i++;
-            }
+            result = result * 10 + Character.getNumericValue(s.charAt(i));
 
-            if (matcher.group(1).equals("-")) {
-                if (-result < Integer.MIN_VALUE)
+            if (!isPositive) {
+                if (-result <= Integer.MIN_VALUE)
                     return Integer.MIN_VALUE;
-                else
-                    return (int) -result;
             } else {
-                if (result > Integer.MAX_VALUE)
+                if (result >= Integer.MAX_VALUE)
                     return Integer.MAX_VALUE;
-                else
-                    return (int) result;
             }
         }
 
-        return (int) result;
+        if (!isPositive)
+            result = -result;
 
+        return (int) result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Solution().myAtoi("42"));
+        System.out.println(new Solution().myAtoi("  -42"));
+        System.out.println(new Solution().myAtoi("4193 with words"));
+        System.out.println(new Solution().myAtoi("words and 987"));
+        System.out.println(new Solution().myAtoi("-91283472332"));
+        System.out.println(new Solution().myAtoi("3.14159"));
+        System.out.println(new Solution().myAtoi("-0012a42"));
+        System.out.println(new Solution().myAtoi("9223372036854775808"));
     }
 }
