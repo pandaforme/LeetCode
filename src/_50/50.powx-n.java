@@ -8,7 +8,7 @@ class Solution {
         if (n < 0)
             return helper(1 / x, -n);
 
-        return helper(x, -n);
+        return helper(x, n);
     }
 
     private double helper(double x, int n) {

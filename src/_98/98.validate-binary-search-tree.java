@@ -1,52 +1,40 @@
 package _98;
 
+import datastructure.TreeNode;
 
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int x) {
-        val = x;
-    }
-}
-
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ * int val;
+ * TreeNode left;
+ * TreeNode right;
+ * TreeNode(int x) { val = x; }
+ * }
+ */
 class Solution {
     public boolean isValidBST(TreeNode root) {
         if (root == null)
             return true;
 
-        if (isValidBST(root.left) && isValidBST(root.right)) {
-            long max = findMax(root.left);
-            long min = findMin(root.right);
+        long leftTreeMax = Long.MIN_VALUE;
+        long rightTreeMin = Long.MAX_VALUE;
 
-            if (max < root.val && root.val < min)
-                return true;
+        TreeNode tmp = root.left;
+        while (tmp != null) {
+            leftTreeMax = tmp.val;
+            tmp = tmp.right;
+        }
 
-            return false;
-        } else
-            return false;
+        tmp = root.right;
+        while (tmp != null) {
+            rightTreeMin = tmp.val;
+            tmp = tmp.left;
+        }
 
+        if (leftTreeMax < root.val && root.val < rightTreeMin) {
+            return isValidBST(root.left) && isValidBST(root.right);
+        }
+
+        return false;
     }
-
-    private long findMax(TreeNode root) {
-        if (root == null)
-            return Long.MIN_VALUE;
-
-        if (root.right == null)
-            return root.val;
-
-        return findMax(root.right);
-    }
-
-    private long findMin(TreeNode root) {
-        if (root == null)
-            return Long.MAX_VALUE;
-
-        if (root.left == null)
-            return root.val;
-
-        return findMin(root.left);
-    }
-
 }

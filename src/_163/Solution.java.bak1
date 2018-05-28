@@ -6,45 +6,34 @@ import java.util.List;
 // an easy question, but the description is not clear. I need to handle a lot of overflow cases
 class Solution {
     public List<String> findMissingRanges(int[] nums, int lower, int upper) {
-        long lowerl = Long.valueOf(lower);
-        long upperl = Long.valueOf(upper);
-
-        List<String> result = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        long lowerL = (long) lower;
+        long upperL = (long) upper;
 
         if (nums.length == 0) {
-            result.add(getString(lowerl - 1, upperl + 1));
+            addString(list, lowerL - 1, upperL + 1);
         }
 
         for (int i = 0; i < nums.length; i++) {
-            if (i == 0) {
-                long diff = Long.valueOf(nums[0]) - lowerl;
-                if (diff >= 1)
-                    result.add(getString(lowerl - 1, nums[0]));
+            if (i == 0 && nums[i] != lowerL) {
+                addString(list, lowerL - 1, nums[i]);
             }
-
-            if (i > 0) {
-                long diff = Long.valueOf(nums[i]) - Long.valueOf(nums[i - 1]);
-                if (diff > 1)
-                    result.add(getString(nums[i - 1], nums[i]));
+            if (i - 1 >= 0 && (long) nums[i] - (long) nums[i - 1] > 1) {
+                addString(list, nums[i - 1], nums[i]);
             }
-
-
-            if (i == nums.length - 1) {
-                long diff = upperl - Long.valueOf(nums[i]);
-                if (diff >= 1)
-                    result.add(getString(nums[i], upperl + 1));
+            if (i == nums.length - 1 && nums[i] != upperL) {
+                addString(list, nums[i], upperL + 1);
             }
-
         }
 
-        return result;
+        return list;
     }
 
-    private String getString(long s, long e) {
-        if (s + 1 == e - 1)
-            return String.valueOf(s + 1);
-
-        return String.format("%s->%s", s + 1, e - 1);
+    private void addString(List<String> list, long start, long end) {
+        if (start + 1 == end - 1)
+            list.add(String.valueOf(start + 1));
+        else
+            list.add(String.format("%s->%s", start + 1, end - 1));
     }
 
     public static void main(String[] args) {

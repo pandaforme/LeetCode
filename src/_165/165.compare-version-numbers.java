@@ -1,32 +1,23 @@
 package _165;
 
-// it is a annoying question, although it is not hard.
-// before diving into it, you need to understand its version rule.
-// the version can be 1.0/1/1.0.0 ..., although they are the same.
-// the best way is convert to number and you don't need to handle cumbersome cases.
 class Solution {
     public int compareVersion(String version1, String version2) {
-        String[] split1 = version1.split("\\.");
-        String[] split2 = version2.split("\\.");
+        String[] version1Split = version1.split("\\.");
+        String[] version2Split = version2.split("\\.");
 
-        double result1 = 0;
-        int power = 0;
-        for (int i = 0; i < split1.length; i++) {
-            result1 += Integer.valueOf(split1[i]) * Math.pow(10, power);
-            power--;
+        int j = 0;
+        while (j < version1Split.length || j < version2Split.length) {
+            int version1Value = (j < version1Split.length) ? Integer.valueOf(version1Split[j]) : 0;
+            int version2Value = (j < version2Split.length) ? Integer.valueOf(version2Split[j]) : 0;
+
+            if (version1Value > version2Value)
+                return 1;
+            else if (version1Value < version2Value)
+                return -1;
+
+            j++;
         }
 
-        double result2 = 0;
-        power = 0;
-        for (int i = 0; i < split2.length; i++) {
-            result2 += Integer.valueOf(split2[i]) * Math.pow(10, power);
-            power--;
-        }
-
-        if (result1 > result2)
-            return 1;
-        if (result1 < result2)
-            return -1;
         return 0;
     }
 
@@ -38,6 +29,5 @@ class Solution {
         System.out.println(new Solution().compareVersion("2.1", "2"));
         System.out.println(new Solution().compareVersion("0.9.9.9.9", "1"));
         System.out.println(new Solution().compareVersion("1.0.1", "1"));
-
     }
 }
