@@ -1,98 +1,104 @@
 package _207;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Solution {
-
-    // dfs
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         if (numCourses == 0 || prerequisites.length == 0)
             return true;
 
-        int[][] matirx = new int[numCourses][numCourses];
+        int[][] adjacentMatrix = new int[numCourses][numCourses];
         int[] indegree = new int[numCourses];
 
         for (int i = 0; i < prerequisites.length; i++) {
-            int start = prerequisites[i][1];
             int end = prerequisites[i][0];
-
-            matirx[start][end] = 1;
-            indegree[end]++;
+            int start = prerequisites[i][1];
+            adjacentMatrix[start][end] = 1;
         }
 
-        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < indegree.length; i++) {
+            for (int j = 0; j < adjacentMatrix.length; j++) {
+                if (adjacentMatrix[j][i] == 1)
+                    indegree[i]++;
+            }
+        }
+
+
+//        return dfs(adjacentMatrix, indegree);
+        return bfs(adjacentMatrix, indegree);
+
+    }
+
+    private boolean bfs(int[][] adjacentMatrix, int[] indegree) {
+        Queue<Integer> queue = new LinkedList<>();
+
         for (int i = 0; i < indegree.length; i++) {
             if (indegree[i] == 0) {
-                list.add(i);
+                indegree[i] = -1;
+                queue.add(i);
             }
         }
 
-        if (list.size() == 0)
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+
+            for (int i = 0; i < size; i++) {
+                int poll = queue.poll();
+                for (int j = 0; j < adjacentMatrix[0].length; j++) {
+                    if (adjacentMatrix[poll][j] == 1)
+                        indegree[j]--;
+                }
+            }
+
+            for (int i = 0; i < indegree.length; i++) {
+                if (indegree[i] == 0) {
+                    indegree[i] = -1;
+                    queue.add(i);
+                }
+            }
+        }
+
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] != -1)
+                return false;
+        }
+
+        return true;
+    }
+
+    private boolean dfs(int[][] adjacentMatrix, int[] indegree) {
+        boolean isDone = true;
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] != -1)
+                isDone = false;
+        }
+
+        if (isDone)
+            return true;
+
+        int candidate = -1;
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] == 0) {
+                candidate = i;
+                break;
+            }
+        }
+
+        if (candidate == -1)
             return false;
 
-        int count = 0;
-        for (int i : list) {
-            count += helper(matirx, indegree, i) + 1;
-        }
-
-        return count == numCourses;
-    }
-
-    private int helper(int[][] matirx, int[] indegree, int target) {
-        List<Integer> list = new ArrayList<>();
-
-        for (int i = 0; i < matirx.length; i++) {
-            if (matirx[target][i] != 0) {
+        for (int i = 0; i < adjacentMatrix[0].length; i++) {
+            if (adjacentMatrix[candidate][i] == 1) {
                 indegree[i]--;
-                if (indegree[i] == 0)
-                    list.add(i);
             }
         }
 
-        int count = 0;
-        for (int i : list) {
-            count += 1 + helper(matirx, indegree, i);
-        }
+        indegree[candidate] = -1;
 
-        return count;
+        return dfs(adjacentMatrix, indegree);
     }
-
-    // bfs
-//    public boolean canFinish(int numCourses, int[][] prerequisites) {
-//        int[][] matirx = new int[numCourses][numCourses];
-//        int[] indegree = new int[numCourses];
-//
-//        for (int i = 0; i < prerequisites.length; i++) {
-//            int start = prerequisites[i][1];
-//            int end = prerequisites[i][0];
-//
-//            matirx[start][end] = 1;
-//            indegree[end]++;
-//        }
-//
-//        Queue<Integer> queue = new LinkedList<>();
-//        for (int i = 0; i < indegree.length; i++) {
-//            if (indegree[i] == 0)
-//                queue.offer(i);
-//        }
-//
-//        int count = 0;
-//        while (!queue.isEmpty()) {
-//            int index = queue.poll();
-//            count++;
-//
-//            for (int i = 0; i < numCourses; i++) {
-//                if (matirx[index][i] != 0) {
-//                    indegree[i]--;
-//                    if (indegree[i] == 0)
-//                        queue.offer(i);
-//                }
-//            }
-//        }
-//
-//        return count == numCourses;
-//    }
 
     public static void main(String[] args) {
         System.out.println(new Solution().canFinish(3, new int[][]{
@@ -100,7 +106,7 @@ class Solution {
                 new int[]{2, 0}
         }));
 
-        System.out.println(new Solution().canFinish(3, new int[][]{
+        System.out.println(new Solution().canFinish(2, new int[][]{
                 new int[]{1, 0}
         }));
 

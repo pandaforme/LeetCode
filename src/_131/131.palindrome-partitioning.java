@@ -20,12 +20,12 @@ class Solution {
             return;
         }
 
-        for (int i = start; i < s.length(); i++) {
-            String part = (i == start) ? String.valueOf(s.charAt(i)) : s.substring(start, i + 1);
+        for (int i = start + 1; i <= s.length(); i++) {
+            String part = s.substring(start, i);
 
             if (isPalindrome(part)) {
                 current.add(part);
-                helper(s, i + 1, current, result);
+                helper(s, i, current, result);
                 current.remove(current.size() - 1);
             }
 

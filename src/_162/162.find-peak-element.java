@@ -8,8 +8,8 @@ class Solution {
     private int hepler(int[] nums, int start, int end) {
         int middle = (start + end) / 2;
 
-        boolean leftPart = (middle - 1 < start) || nums[middle - 1] < nums[middle];
-        boolean rightPart = (middle + 1 > end) || nums[middle] > nums[middle + 1];
+        boolean leftPart = (middle - 1 < 0) || nums[middle - 1] < nums[middle];
+        boolean rightPart = (middle + 1 > nums.length - 1) || nums[middle] > nums[middle + 1];
         if (leftPart && rightPart)
             return middle;
 

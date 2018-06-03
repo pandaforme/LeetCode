@@ -13,34 +13,32 @@ import datastructure.TreeNode;
  */
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return helper(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
+        return helper(preorder, inorder, 0, preorder.length - 1, 0, inorder.length - 1);
     }
 
-    private TreeNode helper(int[] preorder, int preorderStart, int preorderEnd,
-                            int[] inorder, int inorderStart, int inorderEnd) {
-        if (preorderStart > preorderEnd || inorderStart > inorderEnd)
+    private TreeNode helper(int[] preorder, int[] inorder, int pStart, int pEnd, int iStart, int iEnd) {
+        if (pStart > pEnd || iStart > iEnd)
             return null;
 
-        TreeNode root = new TreeNode(preorder[preorderStart]);
-
-        int rootIndex = findTarget(inorder, inorderStart, inorderEnd, preorder[preorderStart]);
-
-        root.left = helper(preorder, preorderStart + 1, (rootIndex - inorderStart + preorderStart),
-                inorder, inorderStart, rootIndex - 1);
-
-        root.right = helper(preorder, (rootIndex - inorderStart + preorderStart + 1), preorderEnd,
-                inorder, rootIndex + 1, inorderEnd);
+        TreeNode root = new TreeNode(preorder[pStart]);
+        int index = find(inorder, preorder[pStart], iStart, iEnd);
+        root.left = helper(preorder, inorder, pStart + 1, index - iStart + pStart, iStart, index - 1);
+        root.right = helper(preorder, inorder, index - iStart + pStart + 1, pEnd, index + 1, iEnd);
 
         return root;
     }
 
-    private int findTarget(int[] a, int start, int end, int target) {
+    private int find(int[] a, int target, int start, int end) {
         for (int i = start; i <= end; i++) {
-            if (a[i] == target) {
+            if (a[i] == target)
                 return i;
-            }
         }
 
         return -1;
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(new Solution().buildTree(new int[]{3, 9, 20, 15, 7}, new int[]{9, 3, 15, 20, 7}).toString());
     }
 }

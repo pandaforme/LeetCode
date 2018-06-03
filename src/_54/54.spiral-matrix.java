@@ -18,10 +18,8 @@ class Solution {
             boolean isAdd = false;
             // right
             for (int j = i; j < n - i; j++) {
-                if (i < m) {
-                    result.add(matrix[i][j]);
-                    isAdd = true;
-                }
+                result.add(matrix[i][j]);
+                isAdd = true;
             }
 
             if (!isAdd)
@@ -31,10 +29,8 @@ class Solution {
             isAdd = false;
             // down
             for (int j = i + 1; j < m - i; j++) {
-                if (n - 1 - i >= 0) {
-                    result.add(matrix[j][n - 1 - i]);
-                    isAdd = true;
-                }
+                result.add(matrix[j][n - 1 - i]);
+                isAdd = true;
             }
 
             if (!isAdd)
@@ -43,10 +39,8 @@ class Solution {
             isAdd = false;
             // left
             for (int j = n - i - 2; j >= i; j--) {
-                if (m - 1 - i >= 0) {
-                    result.add(matrix[m - 1 - i][j]);
-                    isAdd = true;
-                }
+                result.add(matrix[m - 1 - i][j]);
+                isAdd = true;
 
             }
 
@@ -56,10 +50,8 @@ class Solution {
             isAdd = false;
             // up
             for (int j = m - i - 2; j > i; j--) {
-                if (i < n) {
-                    result.add(matrix[j][i]);
-                    isAdd = true;
-                }
+                result.add(matrix[j][i]);
+                isAdd = true;
             }
 
             if (!isAdd)

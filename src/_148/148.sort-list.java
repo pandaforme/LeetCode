@@ -18,51 +18,62 @@ class Solution {
         ListNode slow = head;
         ListNode fast = head;
         ListNode previous = null;
-
         while (fast != null && fast.next != null) {
             previous = slow;
             slow = slow.next;
             fast = fast.next.next;
         }
 
-        previous.next = null;
-        return merge(sortList(head), sortList(slow));
-    }
+        if (previous != null)
+            previous.next = null;
+        ListNode l1 = sortList(head);
+        ListNode l2 = sortList(slow);
 
-    private ListNode merge(ListNode start1, ListNode start2) {
-        ListNode result = null;
-        ListNode resultPointer = null;
-
-        while (start1 != null && start2 != null) {
-            if (start1.val <= start2.val) {
-                if (result == null) {
-                    result = start1;
-                    resultPointer = start1;
+        ListNode root = null;
+        ListNode rootPointer = null;
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                ListNode node = new ListNode(l1.val);
+                if (root == null) {
+                    root = node;
+                    rootPointer = root;
                 } else {
-                    resultPointer.next = start1;
-                    resultPointer = resultPointer.next;
+                    rootPointer.next = node;
+                    rootPointer = rootPointer.next;
                 }
 
-                start1 = start1.next;
+                l1 = l1.next;
             } else {
-                if (result == null) {
-                    result = start2;
-                    resultPointer = start2;
+                ListNode node = new ListNode(l2.val);
+                if (root == null) {
+                    root = node;
+                    rootPointer = root;
                 } else {
-                    resultPointer.next = start2;
-                    resultPointer = resultPointer.next;
+                    rootPointer.next = node;
+                    rootPointer = rootPointer.next;
                 }
 
-                start2 = start2.next;
+                l2 = l2.next;
             }
         }
 
-        if (start1 != null) {
-            resultPointer.next = start1;
-        } else {
-            resultPointer.next = start2;
-        }
+        if (l1 != null)
+            rootPointer.next = l1;
 
-        return result;
+        if (l2 != null)
+            rootPointer.next = l2;
+
+        return root;
+    }
+
+    public static void main(String[] args) {
+        ListNode r = new ListNode(4);
+        ListNode r1 = new ListNode(2);
+        ListNode r2 = new ListNode(1);
+        ListNode r3 = new ListNode(3);
+        r.next = r1;
+        r1.next = r2;
+        r2.next = r3;
+        new Solution().sortList(r);
     }
 }

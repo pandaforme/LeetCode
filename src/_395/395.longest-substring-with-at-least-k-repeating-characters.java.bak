@@ -5,47 +5,45 @@ import java.util.Map;
 
 class Solution {
     public int longestSubstring(String s, int k) {
-        return helper(s, k, 0, s.length() - 1);
+        if (s == null || s.isEmpty())
+            return 0;
+
+        return helper(s, 0, s.length() - 1, k);
     }
 
-    private int helper(String s, int k, int start, int end) {
+    private int helper(String s, int start, int end, int k) {
         if (end - start + 1 < k)
             return 0;
 
         Map<Character, Integer> map = new HashMap<>();
-
         for (int i = start; i <= end; i++) {
             map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
         }
 
         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
             if (entry.getValue() < k) {
-                int index = find(s, entry.getKey(), start, end);
-                int tmp = index;
-                while (tmp >= start && s.charAt(tmp) == entry.getKey())
-                    tmp--;
-                int left = helper(s, k, start, tmp);
+                for (int i = start; i <= end; i++) {
+                    if (s.charAt(i) == entry.getKey()) {
+                        int tmp = i;
+                        while (tmp >= start && s.charAt(tmp) == entry.getKey())
+                            tmp--;
+                        int left = helper(s, start, tmp, k);
 
-                tmp = index;
-                while (tmp <= end && s.charAt(tmp) == entry.getKey())
-                    tmp++;
-                int right = helper(s, k, tmp, end);
+                        tmp = i;
+                        while (tmp <= end && s.charAt(tmp) == entry.getKey())
+                            tmp++;
 
-                return Math.max(left, right);
+                        int right = helper(s, tmp, end, k);
+
+                        return Math.max(left, right);
+                    }
+                }
             }
         }
 
         return end - start + 1;
     }
 
-    private int find(String s, Character c, int start, int end) {
-        for (int i = start; i <= end; i++) {
-            if (s.charAt(i) == c)
-                return i;
-        }
-
-        return -1;
-    }
 
     public static void main(String[] args) {
         System.out.println(new Solution().longestSubstring("aaabb", 3));

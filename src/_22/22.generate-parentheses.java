@@ -21,7 +21,7 @@ class Solution {
         if (left > 0)
             helper(left - 1, right, tmp + "(", result);
 
-        if (right > 0)
+        if (left < right && right > 0)
             helper(left, right - 1, tmp + ")", result);
 
         if (left == 0 && right == 0) {

@@ -10,38 +10,42 @@ class Solution {
             return -1;
 
         int middle = (start + end) / 2;
+
         if (nums[middle] == target)
             return middle;
 
-        if (target > nums[middle]) {
-            int tmp = middle;
-            while (tmp + 1 <= end && nums[tmp] < nums[tmp + 1]) {
-                tmp++;
+        if (target < nums[middle]) {
+            int i;
+            for (i = middle; i >= start; i--) {
+                if (i - 1 < start || nums[i - 1] > nums[i])
+                    break;
             }
 
-            if (target <= nums[tmp])
-                return helper(nums, target, middle + 1, tmp);
-            else if (tmp != end)
-                return helper(nums, target, tmp + 1, end);
-            else
+            if (nums[i] <= target) {
                 return helper(nums, target, start, middle - 1);
-        } else {
-            int tmp = middle;
-            while (tmp - 1 >= start && nums[tmp - 1] < nums[tmp]) {
-                tmp--;
             }
 
-            if (target >= nums[tmp])
-                return helper(nums, target, tmp, middle - 1);
-            else if (tmp != start)
-                return helper(nums, target, start, tmp - 1);
-            else
+            if (i == start) {
                 return helper(nums, target, middle + 1, end);
-        }
-    }
+            } else {
+                return helper(nums, target, start, i - 1);
+            }
+        } else {
+            int i;
+            for (i = middle; i <= end; i++) {
+                if (i + 1 > end || nums[i] > nums[i + 1])
+                    break;
+            }
 
-    public static void main(String[] args) {
-        System.out.println(new Solution().search(new int[]{4, 5, 6, 7, 0, 1, 2}, 0));
-        System.out.println(new Solution().search(new int[]{4, 5, 6, 7, 0, 1, 2}, 3));
+            if (target <= nums[i]) {
+                return helper(nums, target, middle + 1, i);
+            }
+
+            if (i == end) {
+                return helper(nums, target, start, middle - 1);
+            } else {
+                return helper(nums, target, i + 1, end);
+            }
+        }
     }
 }
